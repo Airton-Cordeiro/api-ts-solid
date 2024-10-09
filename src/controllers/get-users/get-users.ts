@@ -4,9 +4,6 @@ export class GetUsersController implements IGetUsersController {
   constructor(private readonly getUsersRepository: IGetUsersRepository) {}
 
   async handle() {
-    //validar requisicao
-
-    //redirecionar chamada para o repository
     try {
       const users = await this.getUsersRepository.getUsers();
 
