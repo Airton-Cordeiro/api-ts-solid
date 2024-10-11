@@ -2,12 +2,12 @@ import { ObjectId } from "mongodb";
 import {
   IUpdateUserRepository,
   UpdateUserParams,
-} from "../../controllers/update-user/update-user";
+} from "../../controllers/update-user/protocols";
 import { MongoClient } from "../../database/mongo";
 import { User } from "../../models/user";
 
 export class MongoUpdateUserRepository implements IUpdateUserRepository {
-  async updateUsers(id: string, params: UpdateUserParams): Promise<User> {
+  async updateUser(id: string, params: UpdateUserParams): Promise<User> {
     await MongoClient.db.collection("users").updateOne(
       { _id: new ObjectId(id) },
       {
@@ -17,7 +17,7 @@ export class MongoUpdateUserRepository implements IUpdateUserRepository {
       }
     );
     const user = await MongoClient.db
-      .collection<Omit<User, "id">>("user")
+      .collection<Omit<User, "id">>("users")
       .findOne({ _id: new ObjectId(id) });
 
     if (!user) {
